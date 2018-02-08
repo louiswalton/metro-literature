@@ -2,7 +2,7 @@
 
 <!--Embed the header.html template at this location-->
 {{ template "header.html" .}}
-	<a href="/{{.location}}/">cancel</a>
+	<a href="/{{.location}}">cancel</a>
 	<form method="POST" action="editInventory">
     {{range .payload }}
 

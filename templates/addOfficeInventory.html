@@ -2,13 +2,42 @@
 
 <!--Embed the header.html template at this location-->
 {{ template "header.html" .}}
-	<a href="/{{.location}}/">cancel</a>
+	<a href="/{{.location}}">cancel</a>
 	<form method="POST" action="addInventory">
+    <table>
+    	<tr>
+    		<th>Language</th>
+    		<th>Item</th>
+    		<th>Current Stock</th>
+    		<th>Amount Available</th>
+    		<th>Request</th>
+    		<th>Item</th>
+    		<th>Current Stock</th>
+    		<th>Amount Available</th>
+    		<th>Request</th>
+    		<th>Item</th>
+    		<th>Current Stock</th>
+    		<th>Amount Available</th>
+    		<th>Request</th>
+    	</tr>
     {{range .payload }}
-
-      <h2>{{.Language}}</h2>
-	    Books: {{.Books}}&nbsp<input type="text" name="{{.Location}}-{{.Language}}-Books">&nbsp&nbsp Magazines: {{.Magazines}}&nbsp<input type="text" name="{{.Location}}-{{.Language}}-Magazines">&nbsp&nbsp Bibles: {{.Bibles}}<input type="text" name="{{.Location}}-{{.Language}}-Bibles">
+    	<tr>
+    		<td>{{.Language}}</td>
+	    	<td>Books</td>
+	    	<td>{{.Books}}</td>
+	    	<td>place Holder</td>
+	    	<td><input type="text" name="{{.Location}}-{{.Language}}-Books"></td>
+	    	<td>Magazines</td>
+	    	<td>{{.Magazines}}</td>
+	    	<td>place Holder</td>
+	    	<td><input type="text" name="{{.Location}}-{{.Language}}-Magazines"></td>
+	    	<td>Bibles</td>
+	    	<td>{{.Bibles}}</td>
+	    	<td>place Holder</td>
+	    	<td><input type="text" name="{{.Location}}-{{.Language}}-Bibles"></td>
+	    </tr>
   	{{end}}
+  	</table>
   	<br><br>
   	<input type="submit" value="Submit">
   	</form>
