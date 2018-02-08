@@ -1,0 +1,18 @@
+<!--addOfficeInventory.html-->
+
+<!--Embed the header.html template at this location-->
+{{ template "header.html" .}}
+	<a href="/{{.location}}/">cancel</a>
+	<form method="POST" action="addInventory">
+    {{range .payload }}
+
+      <h2>{{.Language}}</h2>
+	    Books: {{.Books}}&nbsp<input type="text" name="{{.Location}}-{{.Language}}-Books">&nbsp&nbsp Magazines: {{.Magazines}}&nbsp<input type="text" name="{{.Location}}-{{.Language}}-Magazines">&nbsp&nbsp Bibles: {{.Bibles}}<input type="text" name="{{.Location}}-{{.Language}}-Bibles">
+  	{{end}}
+  	<br><br>
+  	<input type="submit" value="Submit">
+  	</form>
+
+
+<!--Embed the footer.html template at this location-->
+{{ template "footer.html" .}}

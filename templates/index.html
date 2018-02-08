@@ -2,7 +2,6 @@
 
 <!--Embed the header.html template at this location-->
 {{ template "header.html" .}}
-
     {{range .payload }}
 	    <!--Create the link for the article based on its ID-->
 	    <a href="/language/view/{{.Language}}">

@@ -2,6 +2,8 @@
 
 <!--Embed the header.html template at this location-->
 {{ template "header.html" .}}
+	<a href="/{{.location}}/editInventory">Edit Inventory</a> &nbsp&nbsp
+	<a href="/{{.location}}/addInventory">Add Inventory</a>
 	<h1>{{.location}}</h1>
     {{range .payload }}
 	      <!--Display the title of the article -->
