@@ -104,7 +104,6 @@ func getInventoryByOfficeID(officeID string) []language {
 		item.Stats.ItemCounts["Magazines"] = item.Magazines
 		item.Stats.ItemCounts["Bibles"] = item.Bibles
 		currentMap.Languages[item.Language+item.Location] = item
-		fmt.Println(item.Stats.ItemCounts)
 		itemCounter++
 	}
 
