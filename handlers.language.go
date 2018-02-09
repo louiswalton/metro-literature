@@ -10,14 +10,25 @@ import (
 )
 
 func showIndexPage(c *gin.Context) {
-	languages := getAllLanguages()
+	officeID := "Depot"
+	languages := getInventoryByOfficeID(officeID)
 	offices := getAllOffices()
 
-	c.HTML(http.StatusOK, "index.html", gin.H{
-		"title":   "Home Page",
-		"payload": languages,
-		"offices": offices,
-	})
+	// Call the HTML method of the Context to render a template
+	c.HTML(
+		// Set the HTTP status to 200 (OK)
+		http.StatusOK,
+		// Use the index.html template
+		"officeInventory.html",
+		// Pass the data that the page uses
+		gin.H{
+			"title":    officeID,
+			"location": officeID,
+			"payload":  languages,
+			"offices":  offices,
+		},
+	)
+	fmt.Println("printing location map", locationMaps)
 }
 
 func showInventoryByOfficeId(c *gin.Context) {
