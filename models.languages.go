@@ -108,7 +108,6 @@ func getInventoryByOfficeID(officeID string) []language {
 		itemCounter++
 	}
 
-	fmt.Println("current map is ", *currentMap)
 	locationMaps[officeID] = *currentMap
 	return languageList
 }
@@ -133,23 +132,13 @@ func AddInventoryChanges(valuemap map[string]interface{}) {
 		itemType := s[2]
 
 		originalLocation := locationMaps[location].Languages[language+location]
-		fmt.Println(originalLocation.Stats.ItemCounts)
 		originalValue := originalLocation.Stats.ItemCounts[itemType]
-
-		// originalIntValue, err := strconv.Atoi(originalValue)
-		// if err != nil {
-		// 	fmt.Println("Query API call failed:")
-		// 	fmt.Println((err.Error()))
-		// }
 
 		newIntValue, err := strconv.Atoi(value.(string))
 		if err != nil {
 			fmt.Println("Query API call failed:")
 			fmt.Println((err.Error()))
-
 		}
-		fmt.Println("location is ", location, " language is ", language,
-			" itemType ", itemType, " new value is ", strconv.Itoa(originalValue.(int)+newIntValue))
 		updateLanguage(location, language, itemType, strconv.Itoa(originalValue.(int)+newIntValue))
 	}
 

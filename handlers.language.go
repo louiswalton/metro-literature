@@ -28,7 +28,7 @@ func showIndexPage(c *gin.Context) {
 			"offices":  offices,
 		},
 	)
-	fmt.Println("printing location map", locationMaps)
+
 }
 
 func showInventoryByOfficeId(c *gin.Context) {
@@ -50,7 +50,7 @@ func showInventoryByOfficeId(c *gin.Context) {
 			"offices":  offices,
 		},
 	)
-	fmt.Println("printing location map", locationMaps)
+
 }
 
 func editInventoryByOfficeId(c *gin.Context) {
@@ -73,6 +73,7 @@ func editInventoryByOfficeId(c *gin.Context) {
 func addInventoryByOfficeId(c *gin.Context) {
 	officeID := c.Param("office_id")
 	languages := getInventoryByOfficeID(officeID)
+	depotInventory := getInventoryByOfficeID("Depot")
 	offices := getAllOffices()
 
 	c.HTML(
@@ -99,7 +100,7 @@ func saveInventoryChanges(c *gin.Context) {
 	officeID := c.Param("office_id")
 	languages := getInventoryByOfficeID(officeID)
 	offices := getAllOffices()
-	fmt.Println(valueMap)
+
 	// Call the HTML method of the Context to render a template
 	c.HTML(
 		// Set the HTTP status to 200 (OK)
@@ -128,7 +129,7 @@ func addInventoryToOffice(c *gin.Context) {
 	officeID := c.Param("office_id")
 	languages := getInventoryByOfficeID(officeID)
 	offices := getAllOffices()
-	fmt.Println(valueMap)
+
 	// Call the HTML method of the Context to render a template
 	c.HTML(
 		// Set the HTTP status to 200 (OK)
