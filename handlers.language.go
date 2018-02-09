@@ -1,10 +1,7 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
-	// "reflect"
-	// "strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -73,7 +70,7 @@ func editInventoryByOfficeId(c *gin.Context) {
 func addInventoryByOfficeId(c *gin.Context) {
 	officeID := c.Param("office_id")
 	languages := getInventoryByOfficeID(officeID)
-	depotInventory := getInventoryByOfficeID("Depot")
+	//depotInventory := getInventoryByOfficeID("Depot")
 	offices := getAllOffices()
 
 	c.HTML(
