@@ -126,12 +126,7 @@ func processLanguageList(officeInventory Location, stock Stocklist) Location {
 	return officeInventory
 }
 
-func updateLanguage(location string, language string, itemType string, count string) {
-	sess, err := session.NewSession(&aws.Config{
-		Region: aws.String("us-west-1")},
-	)
-
-	svc := dynamodb.New(sess)
+func updateLanguage(svc *dynamodb.DynamoDB, location string, language string, itemType string, count string) {
 
 	// Create item in table SFMetroOfficeInventory
 	input := &dynamodb.UpdateItemInput{
@@ -153,7 +148,7 @@ func updateLanguage(location string, language string, itemType string, count str
 		UpdateExpression: aws.String(fmt.Sprintf("set %s = :%s", itemType, itemType)),
 	}
 
-	_, err = svc.UpdateItem(input)
+	_, err := svc.UpdateItem(input)
 
 	if err != nil {
 		fmt.Println(err.Error())
@@ -163,6 +158,17 @@ func updateLanguage(location string, language string, itemType string, count str
 }
 
 func MakeInventoryChanges(valuemap map[string]interface{}) {
+	sess, err := session.NewSession(&aws.Config{
+		Region: aws.String("us-west-1")},
+	)
+	if err != nil {
+		fmt.Println("Got error creating session:")
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+
+	svc := dynamodb.New(sess)
+
 	for key, value := range valuemap {
 		s := strings.Split(key, "-")
 		location := s[0]
@@ -170,13 +176,23 @@ func MakeInventoryChanges(valuemap map[string]interface{}) {
 		itemType := s[2]
 
 		if len(value.(string)) != 0 {
-			updateLanguage(location, language, itemType, value.(string))
+			updateLanguage(svc, location, language, itemType, value.(string))
 		}
 	}
 
 }
 
 func AddInventoryChanges(valuemap map[string]interface{}) {
+	sess, err := session.NewSession(&aws.Config{
+		Region: aws.String("us-west-1")},
+	)
+	if err != nil {
+		fmt.Println("Got error creating session:")
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+	svc := dynamodb.New(sess)
+
 	for key, value := range valuemap {
 		s := strings.Split(key, "-")
 		location := s[0]
@@ -192,7 +208,7 @@ func AddInventoryChanges(valuemap map[string]interface{}) {
 				fmt.Println((err.Error()))
 			}
 
-			updateLanguage(location, language, itemType, strconv.Itoa(originalValue.(int)+newIntValue))
+			updateLanguage(svc, location, language, itemType, strconv.Itoa(originalValue.(int)+newIntValue))
 		}
 	}
 }
@@ -201,6 +217,16 @@ func SubtractInventoryFromDepot(valuemap map[string]interface{}) {
 	getInventoryByOfficeID("Depot")
 	originalLocation := locationMaps["Depot"]
 	originalLanguages := originalLocation.Languages
+
+	sess, err := session.NewSession(&aws.Config{
+		Region: aws.String("us-west-1")},
+	)
+	if err != nil {
+		fmt.Println("Got error creating session:")
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+	svc := dynamodb.New(sess)
 
 	for key, value := range valuemap {
 		s := strings.Split(key, "-")
@@ -216,7 +242,7 @@ func SubtractInventoryFromDepot(valuemap map[string]interface{}) {
 				fmt.Println((err.Error()))
 			}
 			if location != "Depot" {
-				updateLanguage("Depot", language, itemType, strconv.Itoa(originalValue.(int)-newIntValue))
+				updateLanguage(svc, "Depot", language, itemType, strconv.Itoa(originalValue.(int)-newIntValue))
 			}
 		}
 	}
