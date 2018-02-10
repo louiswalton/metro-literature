@@ -70,7 +70,7 @@ func editInventoryByOfficeId(c *gin.Context) {
 func addInventoryByOfficeId(c *gin.Context) {
 	officeID := c.Param("office_id")
 	languages := getInventoryByOfficeID(officeID)
-	//depotInventory := getInventoryByOfficeID("Depot")
+	languages = MergeDepotStats(languages)
 	offices := getAllOffices()
 
 	c.HTML(
@@ -122,6 +122,7 @@ func addInventoryToOffice(c *gin.Context) {
 	}
 
 	AddInventoryChanges(valueMap)
+	SubtractInventoryFromDepot(valueMap)
 
 	officeID := c.Param("office_id")
 	languages := getInventoryByOfficeID(officeID)
