@@ -4,6 +4,7 @@
 {{ template "header.html" .}}
 	<a href="/{{.location}}/editInventory">Edit Inventory</a> &nbsp&nbsp
 	<a href="/{{.location}}/addInventory">Add Inventory</a>
+	<h3>{{.errorMessage}}<h3>
 	<h1>{{.location}}</h1>
     {{range .payload }}
 	      <!--Display the title of the article -->
