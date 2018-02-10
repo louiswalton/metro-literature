@@ -204,7 +204,7 @@ func SubtractInventoryFromDepot(valuemap map[string]interface{}) {
 
 	for key, value := range valuemap {
 		s := strings.Split(key, "-")
-		// location := s[0]
+		location := s[0]
 		language := s[1]
 		itemType := s[2]
 
@@ -215,8 +215,9 @@ func SubtractInventoryFromDepot(valuemap map[string]interface{}) {
 				fmt.Println("Query API call failed:")
 				fmt.Println((err.Error()))
 			}
-
-			updateLanguage("Depot", language, itemType, strconv.Itoa(originalValue.(int)-newIntValue))
+			if location != "Depot" {
+				updateLanguage("Depot", language, itemType, strconv.Itoa(originalValue.(int)-newIntValue))
+			}
 		}
 	}
 }
