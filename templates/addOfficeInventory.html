@@ -9,15 +9,15 @@
     		<th>Language</th>
     		<th>Item</th>
     		<th>Current Stock</th>
-    		<th>Amount Available</th>
+    		<th>Amount At Depot</th>
     		<th>Request</th>
     		<th>Item</th>
     		<th>Current Stock</th>
-    		<th>Amount Available</th>
+    		<th>Amount At Depot</th>
     		<th>Request</th>
     		<th>Item</th>
     		<th>Current Stock</th>
-    		<th>Amount Available</th>
+    		<th>Amount At Depot</th>
     		<th>Request</th>
     	</tr>
     {{range .payload }}
@@ -25,15 +25,15 @@
     		<td>{{.Language}}</td>
 	    	<td>Books</td>
 	    	<td>{{.Books}}</td>
-	    	<td>place Holder</td>
+	    	<td>{{.DepotBooks}}</td>
 	    	<td><input type="text" name="{{.Location}}-{{.Language}}-Books"></td>
 	    	<td>Magazines</td>
 	    	<td>{{.Magazines}}</td>
-	    	<td>place Holder</td>
+	    	<td>{{.DepotMagazines}}</td>
 	    	<td><input type="text" name="{{.Location}}-{{.Language}}-Magazines"></td>
 	    	<td>Bibles</td>
 	    	<td>{{.Bibles}}</td>
-	    	<td>place Holder</td>
+	    	<td>{{.DepotBibles}}</td>
 	    	<td><input type="text" name="{{.Location}}-{{.Language}}-Bibles"></td>
 	    </tr>
   	{{end}}
