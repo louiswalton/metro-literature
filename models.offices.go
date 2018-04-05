@@ -6,6 +6,7 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -24,6 +25,16 @@ var officeList = []office{
 	office{ID: "Embarcadero"},
 	office{ID: "California St"},
 	office{ID: "Kearny St."},
+}
+
+type transactionLog struct {
+	Location        string `json:"Location"`
+	Language        string `json:"Language"`
+	TransactionID   string `json:"TransactionID"`
+	Transaction     string `json:"Transaction"`
+	ItemType        string `json:"ItemType"`
+	Count           string `json:"Count"`
+	TransactionTime string `json:"TransactionTime"`
 }
 
 func getAllOffices() []office {
@@ -154,7 +165,40 @@ func updateLanguage(svc *dynamodb.DynamoDB, location string, language string, it
 		fmt.Println(err.Error())
 		return
 	}
+}
 
+func logTransaction(svc *dynamodb.DynamoDB, location string, language string, itemType string, count string,
+	transaction string) {
+
+	var Pacific = "America/Los_Angeles"
+	loc, _ := time.LoadLocation(Pacific)
+	var t = time.Now().In(loc)
+	fmt.Println(t.String())
+
+	newTransaction := transactionLog{
+		Location:        location,
+		Language:        language,
+		TransactionID:   t.String() + location,
+		Transaction:     transaction,
+		ItemType:        itemType,
+		Count:           count,
+		TransactionTime: t.String(),
+	}
+
+	av, err := dynamodbattribute.MarshalMap(newTransaction)
+
+	// Create item in table TransactionLog
+	input := &dynamodb.PutItemInput{
+		Item:      av,
+		TableName: aws.String("TransactionLog"),
+	}
+
+	_, err = svc.PutItem(input)
+
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
 }
 
 func MakeInventoryChanges(valuemap map[string]interface{}) {
@@ -177,6 +221,7 @@ func MakeInventoryChanges(valuemap map[string]interface{}) {
 
 		if len(value.(string)) != 0 {
 			updateLanguage(svc, location, language, itemType, value.(string))
+			logTransaction(svc, location, language, itemType, value.(string), "change")
 		}
 	}
 
@@ -209,6 +254,8 @@ func AddInventoryChanges(valuemap map[string]interface{}) {
 			}
 
 			updateLanguage(svc, location, language, itemType, strconv.Itoa(originalValue.(int)+newIntValue))
+			logTransaction(svc, location, language, itemType, strconv.Itoa(newIntValue),
+				"add")
 		}
 	}
 }
@@ -243,6 +290,8 @@ func SubtractInventoryFromDepot(valuemap map[string]interface{}) {
 			}
 			if location != "Depot" {
 				updateLanguage(svc, "Depot", language, itemType, strconv.Itoa(originalValue.(int)-newIntValue))
+				logTransaction(svc, "Depot", language, itemType, strconv.Itoa(newIntValue),
+					"subtract")
 			}
 		}
 	}
