@@ -1,0 +1,26 @@
+<!--addOfficeInventory.html-->
+
+<!--Embed the header.html template at this location-->
+{{ template "header.html" .}}
+<header><h1>{{.office}} - {{.title}}</h1></header>
+	<a href="/office/{{.office}}">Back</a> &nbsp &nbsp
+  <a href="/location/{{.office}}/{{.location}}/createReport">Create Report</a>
+    <table>
+    	<tr>
+    		<th>Date</th>
+    	</tr>
+    {{range $p := .payload }}
+    	<tr>
+    		<td>{{$p.ReportDate}}</td>
+	    </tr>
+      <tr><td>
+      {{range $key, $value := $p.Report}}
+        <p>{{$key}}:&nbsp {{$value}} </p>
+      {{end}}
+      </td></tr>
+  	{{end}}
+  	</table>
+
+
+<!--Embed the footer.html template at this location-->
+{{ template "footer.html" .}}

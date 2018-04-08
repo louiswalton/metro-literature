@@ -1,0 +1,27 @@
+<!--addOfficeInventory.html-->
+
+<!--Embed the header.html template at this location-->
+{{ template "header.html" .}}
+	<a href="/offices/{{.location}}">Back</a>
+    <table>
+    	<tr>
+    		<th>Date</th>
+    		<th>Transaction</th>
+    		<th>Type</th>
+    		<th>Language</th>
+    		<th>Count</th>
+    	</tr>
+    {{range .payload }}
+    	<tr>
+    		<td>{{.TransactionTime}}</td>
+	    	<td>{{.Transaction}}</td>
+	    	<td>{{.ItemType}}</td>
+	    	<td>{{.Language}}</td>
+	    	<td>{{.Count}}</td>
+	    </tr>
+  	{{end}}
+  	</table>
+
+
+<!--Embed the footer.html template at this location-->
+{{ template "footer.html" .}}

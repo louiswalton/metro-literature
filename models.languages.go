@@ -37,7 +37,7 @@ type lList []language
 
 func (l lList) Len() int           { return len(l) }
 func (l lList) Swap(i, j int)      { l[i], l[j] = l[j], l[i] }
-func (l lList) Less(i, j int) bool { return l[i].Books < l[j].Books }
+func (l lList) Less(i, j int) bool { return l[i].Language > l[j].Language }
 
 var locationMaps = make(map[string]Location)
 

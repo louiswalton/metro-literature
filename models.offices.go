@@ -173,7 +173,7 @@ func logTransaction(svc *dynamodb.DynamoDB, location string, language string, it
 	var Pacific = "America/Los_Angeles"
 	loc, _ := time.LoadLocation(Pacific)
 	var t = time.Now().In(loc)
-	fmt.Println(t.String())
+	// fmt.Println(t.String())
 
 	newTransaction := transactionLog{
 		Location:        location,
@@ -225,6 +225,68 @@ func MakeInventoryChanges(valuemap map[string]interface{}) {
 		}
 	}
 
+}
+
+func getInventoryLog(officeID string) []transactionLog {
+	sess, err := session.NewSession(&aws.Config{
+		Region: aws.String("us-west-1")},
+	)
+
+	if err != nil {
+		fmt.Println("Got error creating session:")
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+
+	svc := dynamodb.New(sess)
+
+	filt := expression.Name("Location").Equal(expression.Value(officeID))
+	proj := expression.NamesList(expression.Name("Language"), expression.Name("TransactionID"),
+		expression.Name("ItemType"), expression.Name("Location"), expression.Name("Transaction"),
+		expression.Name("TransactionTime"), expression.Name("Count"))
+
+	expr, err := expression.NewBuilder().WithFilter(filt).WithProjection(proj).Build()
+
+	if err != nil {
+		fmt.Println("Got error building expression:")
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+
+	// Build the query input parameters
+	params := &dynamodb.ScanInput{
+		ExpressionAttributeNames:  expr.Names(),
+		ExpressionAttributeValues: expr.Values(),
+		FilterExpression:          expr.Filter(),
+		ProjectionExpression:      expr.Projection(),
+		TableName:                 aws.String("TransactionLog"),
+	}
+
+	// Make the DynamoDB Query API call
+	result, err := svc.Scan(params)
+
+	if err != nil {
+		fmt.Println("Query API call failed:")
+		fmt.Println((err.Error()))
+		os.Exit(1)
+	}
+
+	transactionList := make([]transactionLog, len(result.Items))
+
+	for j, i := range result.Items {
+		item := transactionLog{}
+		err = dynamodbattribute.UnmarshalMap(i, &item)
+
+		if err != nil {
+			fmt.Println("Got error unmarshalling:")
+			fmt.Println(err.Error())
+			os.Exit(1)
+		}
+
+		transactionList[j] = item
+	}
+
+	return transactionList
 }
 
 func AddInventoryChanges(valuemap map[string]interface{}) {

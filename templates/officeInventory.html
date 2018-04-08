@@ -2,8 +2,9 @@
 
 <!--Embed the header.html template at this location-->
 {{ template "header.html" .}}
-	<a href="/{{.location}}/editInventory">Edit Inventory</a> &nbsp&nbsp
-	<a href="/{{.location}}/addInventory">Add Inventory</a>
+	<a href="/office/{{.location}}/editInventory">Edit Inventory</a> &nbsp&nbsp
+	<a href="/office/{{.location}}/addInventory">Add Inventory</a> &nbsp&nbsp
+	<a href="/office/{{.location}}/inventoryLog">Inventory Log</a>
 	<h3>{{.errorMessage}}<h3>
 	<h1>{{.location}}</h1>
     {{range .payload }}

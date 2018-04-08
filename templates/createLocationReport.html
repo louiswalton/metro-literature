@@ -1,0 +1,38 @@
+<!--addOfficeInventory.html-->
+
+<!--Embed the header.html template at this location-->
+{{ template "header.html" .}}
+{{$location:=.location}}
+<header><h1>{{.office}} - {{.location}} - Reports</h1></header>
+	<a href="/location/{{.office}}/{{.location}}">cancel</a>
+	<form method="POST" action="saveReport">
+    <table class="table">
+      <tr>Report Date: <input type="date" name="reportDate"  ></tr>
+    	<tr>
+    		<th>Language</th>
+    		<th>Item</th>
+    		<th>Placed</th>
+    		<th>Item</th>
+    		<th>Placed</th>
+    		<th>Item</th>
+    		<th>Placed</th>
+    	</tr>
+    {{range .payload }}
+    	<tr>
+    		<td>{{.Language}}</td>
+	    	<td>Books</td>
+	    	<td><input type="text" name="{{.Language}}-Books"></td>
+	    	<td>Magazines</td>
+	    	<td><input type="text" name="{{.Language}}-Magazines"></td>
+	    	<td>Bibles</td>
+	    	<td><input type="text" name="{{.Language}}-Bibles"></td>
+	    </tr>
+  	{{end}}
+  	</table>
+  	<br><br>
+  	<input type="submit" value="Submit">
+  	</form>
+
+
+<!--Embed the footer.html template at this location-->
+{{ template "footer.html" .}}

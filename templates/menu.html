@@ -1,13 +1,14 @@
 <!--menu.html-->
 
 <nav class="navbar navbar-default">
-  <div class="container">
-    <div class="navbar-header">
-    {{range .offices }}
-      <a class="navbar-brand" href="/{{.ID}}">
-        {{.ID}}
-      </a>
-    {{end}}
-    </div>
-  </div>
+	<div class="container">
+		<div class="navbar-header">
+			{{range .offices }}
+			<a class="navbar-brand" href="/office/{{.ID}}">
+				{{.ID}}
+			</a>
+			{{end}}
+		</div>
+	</div>
+	{{ template "submenu.html" . }}
 </nav>
