@@ -307,7 +307,16 @@ func AddInventoryChanges(valuemap map[string]interface{}) {
 		itemType := s[2]
 
 		originalLocation := locationMaps[location].Languages[language+location]
+
 		originalValue := originalLocation.Stats.ItemCounts[itemType]
+
+		// in this case the office has a negative number of books.  It has placed
+		// more books than it took in from the depot.  Maybe publishers are bringing
+		// publications from home.
+		if originalValue.(int) < 0 {
+			originalValue = 0
+		}
+
 		if len(value.(string)) != 0 {
 			newIntValue, err := strconv.Atoi(value.(string))
 			if err != nil {
