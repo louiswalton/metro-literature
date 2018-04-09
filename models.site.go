@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
-	"time"
+	"timre"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -191,4 +191,67 @@ func GetLocationReports(location string) []LocationReport {
 	}
 
 	return reportList
+}
+
+func GetReport(reportID string) LocationReport {
+	sess, err := session.NewSession(&aws.Config{
+		Region: aws.String("us-west-1")},
+	)
+
+	if err != nil {
+		fmt.Println("Got error creating session:")
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+
+	svc := dynamodb.New(sess)
+
+	filt := expression.Name("ReportID").Equal(expression.Value(reportID))
+	proj := expression.NamesList(
+		expression.Name("ReportID"), expression.Name("ReportTimestamp"),
+		expression.Name("Location"), expression.Name("Office"),
+		expression.Name("Report"), expression.Name("ReportDate"))
+
+	expr, err := expression.NewBuilder().WithFilter(filt).WithProjection(proj).Build()
+
+	if err != nil {
+		fmt.Println("Got error building expression:")
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+
+	// Build the query input parameters
+	params := &dynamodb.ScanInput{
+		ExpressionAttributeNames:  expr.Names(),
+		ExpressionAttributeValues: expr.Values(),
+		FilterExpression:          expr.Filter(),
+		ProjectionExpression:      expr.Projection(),
+		TableName:                 aws.String("LocationReports"),
+	}
+
+	// Make the DynamoDB Query API call
+	result, err := svc.Scan(params)
+
+	if err != nil {
+		fmt.Println("Query API call failed:")
+		fmt.Println((err.Error()))
+		os.Exit(1)
+	}
+
+	ReportList := make([]LocationReport, len(result.Items))
+
+	for j, i := range result.Items {
+		item := LocationReport{}
+		err = dynamodbattribute.UnmarshalMap(i, &item)
+
+		if err != nil {
+			fmt.Println("Got error unmarshalling:")
+			fmt.Println(err.Error())
+			os.Exit(1)
+		}
+
+		ReportList[j] = item
+	}
+	report := ReportList[0]
+	return report
 }

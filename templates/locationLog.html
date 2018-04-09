@@ -3,6 +3,8 @@
 <!--Embed the header.html template at this location-->
 {{ template "header.html" .}}
 <header><h1>{{.office}} - {{.title}}</h1></header>
+{{$office:=.office}}
+{{$location:=.location}}
 	<a href="/office/{{.office}}">Back</a> &nbsp &nbsp
   <a href="/location/{{.office}}/{{.location}}/createReport">Create Report</a>
     <table>
@@ -11,7 +13,7 @@
     	</tr>
     {{range $p := .payload }}
     	<tr>
-    		<td>{{$p.ReportDate}}</td>
+    		<td><a href="/location/{{$office}}/{{$location}}/editReport/{{$p.ReportID}}">{{$p.ReportDate}}</a></td>
 	    </tr>
       <tr><td>
       {{range $key, $value := $p.Report}}

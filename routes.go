@@ -18,4 +18,6 @@ func initializeRoutes() {
 	router.GET("/location/:office_id/:location", showLocationReport)
 	router.GET("/location/:office_id/:location/createReport", createLocationReport)
 	router.POST("/location/:office_id/:location/saveReport", saveLocationReport)
+	router.GET("/location/:office_id/:location/editReport/:report_id", editLocationReport)
+	router.POST("/location/:office_id/:location/editReport/:report_id", saveLocationReport)
 }

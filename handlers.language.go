@@ -251,6 +251,35 @@ func saveLocationReport(c *gin.Context) {
 	)
 }
 
+func editLocationReport(c *gin.Context) {
+	c.Request.ParseForm()
+
+	office := c.Param("office_id")
+	location := c.Param("location")
+	reportID := c.Param("report_id")
+	offices := getAllOffices()
+	locations := getSiteByOfficeID(office)
+
+	report := GetReport(reportID)
+
+	// Call the HTML method of the Context to render a template
+	c.HTML(
+		// Set the HTTP status to 200 (OK)
+		http.StatusOK,
+		// Use the index.html template
+		"ReportView.html",
+		// Pass the data that the page uses
+		gin.H{
+			"office":    office,
+			"title":     location,
+			"location":  location,
+			"locations": locations,
+			"report":    report,
+			"offices":   offices,
+		},
+	)
+}
+
 func addInventoryToOffice(c *gin.Context) {
 	c.Request.ParseForm()
 	valueMap := make(map[string]interface{})
