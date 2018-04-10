@@ -37,6 +37,16 @@ type transactionLog struct {
 	TransactionTime string `json:"TransactionTime"`
 }
 
+type TransactionList []transactionLog
+
+func (transactions TransactionList) Len() int { return len(transactions) }
+func (transactions TransactionList) Swap(i, j int) {
+	transactions[i], transactions[j] = transactions[j], transactions[i]
+}
+func (transactions TransactionList) Less(i, j int) bool {
+	return transactions[i].TransactionTime > transactions[j].TransactionTime
+}
+
 const officeInventoryTableName string = "SanFrancisco-OfficeInventory"
 const transactionLogTableName string = "SanFrancisco-TransactionLog"
 
@@ -288,7 +298,7 @@ func getInventoryLog(officeID string) []transactionLog {
 
 		transactionList[j] = item
 	}
-
+	sort.Sort(TransactionList(transactionList))
 	return transactionList
 }
 
