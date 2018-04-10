@@ -23,8 +23,8 @@ var officeList = []office{
 	office{ID: "Depot"},
 	office{ID: "Flood Building"},
 	office{ID: "Embarcadero"},
-	office{ID: "California St"},
-	office{ID: "Kearny St."},
+	office{ID: "Mill Valley"},
+	office{ID: "Golden Gate Park"},
 }
 
 type transactionLog struct {
@@ -36,6 +36,9 @@ type transactionLog struct {
 	Count           string `json:"Count"`
 	TransactionTime string `json:"TransactionTime"`
 }
+
+const officeInventoryTableName string = "SanFrancisco-OfficeInventory"
+const transactionLogTableName string = "SanFrancisco-TransactionLog"
 
 func getAllOffices() []office {
 	return officeList
@@ -72,7 +75,7 @@ func getInventoryByOfficeID(officeID string) []language {
 		ExpressionAttributeValues: expr.Values(),
 		FilterExpression:          expr.Filter(),
 		ProjectionExpression:      expr.Projection(),
-		TableName:                 aws.String("SFMetroOfficeInventory"),
+		TableName:                 aws.String(officeInventoryTableName),
 	}
 
 	// Make the DynamoDB Query API call
@@ -139,14 +142,14 @@ func processLanguageList(officeInventory Location, stock Stocklist) Location {
 
 func updateLanguage(svc *dynamodb.DynamoDB, location string, language string, itemType string, count string) {
 
-	// Create item in table SFMetroOfficeInventory
+	// Create item in table SanFrancisco-OfficeInventory
 	input := &dynamodb.UpdateItemInput{
 		ExpressionAttributeValues: map[string]*dynamodb.AttributeValue{
 			fmt.Sprintf(":%s", itemType): {
 				N: aws.String(count),
 			},
 		},
-		TableName: aws.String("SFMetroOfficeInventory"),
+		TableName: aws.String(officeInventoryTableName),
 		Key: map[string]*dynamodb.AttributeValue{
 			"Location": {
 				S: aws.String(location),
@@ -190,7 +193,7 @@ func logTransaction(svc *dynamodb.DynamoDB, location string, language string, it
 	// Create item in table TransactionLog
 	input := &dynamodb.PutItemInput{
 		Item:      av,
-		TableName: aws.String("TransactionLog"),
+		TableName: aws.String(transactionLogTableName),
 	}
 
 	_, err = svc.PutItem(input)
@@ -259,7 +262,7 @@ func getInventoryLog(officeID string) []transactionLog {
 		ExpressionAttributeValues: expr.Values(),
 		FilterExpression:          expr.Filter(),
 		ProjectionExpression:      expr.Projection(),
-		TableName:                 aws.String("TransactionLog"),
+		TableName:                 aws.String(transactionLogTableName),
 	}
 
 	// Make the DynamoDB Query API call

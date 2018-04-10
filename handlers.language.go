@@ -13,6 +13,8 @@ func showIndexPage(c *gin.Context) {
 	offices := getAllOffices()
 	locations := getSiteByOfficeID(officeID)
 
+	fmt.Println("finished getSiteByOfficeID")
+
 	// Call the HTML method of the Context to render a template
 	c.HTML(
 		// Set the HTTP status to 200 (OK)
@@ -230,6 +232,37 @@ func saveLocationReport(c *gin.Context) {
 	logs := GetLocationReports(location)
 	offices := getAllOffices()
 	locations := getSiteByOfficeID(office)
+
+	CreateReport(valueMap, location, office, date)
+
+	// Call the HTML method of the Context to render a template
+	c.HTML(
+		// Set the HTTP status to 200 (OK)
+		http.StatusOK,
+		// Use the index.html template
+		"locationLog.html",
+		// Pass the data that the page uses
+		gin.H{
+			"office":    office,
+			"title":     location,
+			"location":  location,
+			"locations": locations,
+			"payload":   logs,
+			"offices":   offices,
+		},
+	)
+}
+
+func saveEditLocationReport(c *gin.Context) {
+	c.Request.ParseForm()
+	valueMap := make(map[string]string)
+
+	office := c.Param("office_id")
+	location := c.Param("location")
+	logs := GetLocationReports(location)
+	offices := getAllOffices()
+	locations := getSiteByOfficeID(office)
+	var date = ""
 
 	CreateReport(valueMap, location, office, date)
 

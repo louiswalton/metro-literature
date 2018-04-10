@@ -23,6 +23,8 @@ type Stocklist struct {
 
 var Stock = Stocklist{Stocklist: make(map[string]StockItem), HasBeenChanged: false}
 
+const stocklistTableName string = "Stock"
+
 func getStocklist() Stocklist {
 	sess, err := session.NewSession(&aws.Config{
 		Region: aws.String("us-west-1")},
@@ -51,7 +53,7 @@ func getStocklist() Stocklist {
 		ExpressionAttributeNames:  expr.Names(),
 		ExpressionAttributeValues: expr.Values(),
 		ProjectionExpression:      expr.Projection(),
-		TableName:                 aws.String("Stock"),
+		TableName:                 aws.String(stocklistTableName),
 	}
 
 	// Make the DynamoDB Query API call

@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
-	"timre"
+	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -25,6 +25,9 @@ type LocationReport struct {
 	Office          string            `json:"Office"`
 	ReportDate      string            `json:"ReportDate"`
 }
+
+const LocationTableName string = "SanFrancisco-Locations"
+const LocationReportTableName string = "SanFrancisco-LocationReports"
 
 func getSiteByOfficeID(officeID string) []site {
 	sess, err := session.NewSession(&aws.Config{
@@ -56,7 +59,7 @@ func getSiteByOfficeID(officeID string) []site {
 		ExpressionAttributeValues: expr.Values(),
 		FilterExpression:          expr.Filter(),
 		ProjectionExpression:      expr.Projection(),
-		TableName:                 aws.String("Site"),
+		TableName:                 aws.String(LocationTableName),
 	}
 
 	// Make the DynamoDB Query API call
@@ -163,7 +166,7 @@ func GetLocationReports(location string) []LocationReport {
 		ExpressionAttributeValues: expr.Values(),
 		FilterExpression:          expr.Filter(),
 		ProjectionExpression:      expr.Projection(),
-		TableName:                 aws.String("LocationReports"),
+		TableName:                 aws.String(LocationReportTableName),
 	}
 
 	// Make the DynamoDB Query API call
@@ -226,7 +229,7 @@ func GetReport(reportID string) LocationReport {
 		ExpressionAttributeValues: expr.Values(),
 		FilterExpression:          expr.Filter(),
 		ProjectionExpression:      expr.Projection(),
-		TableName:                 aws.String("LocationReports"),
+		TableName:                 aws.String(LocationReportTableName),
 	}
 
 	// Make the DynamoDB Query API call
