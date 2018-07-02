@@ -8,7 +8,7 @@
     {{range .payload }}
 
       <h2>{{.Language}}</h2>
-	    Books: &nbsp<input type="text" name="{{.Location}}-{{.Language}}-BooksGoal" value={{.BooksGoal}}>&nbsp&nbsp Magazines: &nbsp<input type="text" name="{{.Location}}-{{.Language}}-MagazinesGoal" value={{.MagazinesGoal}}>&nbsp&nbsp Bibles: <input type="text" name="{{.Location}}-{{.Language}}-BiblesGoal" value={{.BiblesGoal}}>
+	    Books: &nbsp<input type="text" maxlength="5" size="4" name="{{.Location}}-{{.Language}}-BooksGoal" value={{.BooksGoal}}>&nbsp&nbsp Magazines: &nbsp<input type="text" maxlength="5" size="4" name="{{.Location}}-{{.Language}}-MagazinesGoal" value={{.MagazinesGoal}}>&nbsp&nbsp Bibles: <input type="text" maxlength="5" size="4" name="{{.Location}}-{{.Language}}-BiblesGoal" value={{.BiblesGoal}}>
   	{{end}}
   	<br><br>
   	<input type="submit" value="Submit">
