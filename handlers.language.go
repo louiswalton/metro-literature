@@ -160,6 +160,56 @@ func editInventoryByOfficeId(c *gin.Context) {
 	)
 }
 
+func editInventoryGoalByOfficeId(c *gin.Context) {
+	officeID := c.Param("office_id")
+	languages := getInventoryByOfficeID(officeID)
+	offices := getAllOffices()
+
+	c.HTML(
+		http.StatusOK,
+		"editOfficeInventoryGoal.html",
+		gin.H{
+			"title":    officeID,
+			"office":   officeID,
+			"location": officeID,
+			"payload":  languages,
+			"offices":  offices,
+		},
+	)
+}
+
+func saveInventoryGoalChanges(c *gin.Context) {
+	c.Request.ParseForm()
+	valueMap := make(map[string]interface{})
+	for key, value := range c.Request.PostForm {
+		valueMap[key] = value[0]
+	}
+
+	MakeInventoryChanges(valueMap)
+
+	officeID := c.Param("office_id")
+	languages := getInventoryByOfficeID(officeID)
+	offices := getAllOffices()
+	locations := getSiteByOfficeID(officeID)
+
+	// Call the HTML method of the Context to render a template
+	c.HTML(
+		// Set the HTTP status to 200 (OK)
+		http.StatusOK,
+		// Use the index.html template
+		"officeInventory.html",
+		// Pass the data that the page uses
+		gin.H{
+			"title":     officeID,
+			"location":  officeID,
+			"office":    officeID,
+			"locations": locations,
+			"payload":   languages,
+			"offices":   offices,
+		},
+	)
+}
+
 func addInventoryByOfficeId(c *gin.Context) {
 	officeID := c.Param("office_id")
 	languages := getInventoryByOfficeID(officeID)

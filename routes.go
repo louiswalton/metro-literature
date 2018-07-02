@@ -7,6 +7,8 @@ func initializeRoutes() {
 	router.GET("/office/:office_id", showInventoryByOfficeId)
 	router.GET("/office/:office_id/editInventory", editInventoryByOfficeId)
 	router.GET("/office/:office_id/addInventory", addInventoryByOfficeId)
+	router.GET("/office/:office_id/editInventoryGoal", editInventoryGoalByOfficeId)
+	router.POST("/office/:office_id/saveInventoryGoal", saveInventoryGoalChanges)
 	router.POST("/office/:office_id/editInventory", saveInventoryChanges)
 	router.POST("/office/:office_id/addInventory", addInventoryToOffice)
 	router.GET("/office/:office_id/inventoryLog", showInventoryLogByOfficeId)
@@ -20,4 +22,5 @@ func initializeRoutes() {
 	router.POST("/location/:office_id/:location/saveReport", saveLocationReport)
 	router.GET("/location/:office_id/:location/editReport/:report_id", editLocationReport)
 	router.POST("/location/:office_id/:location/editReport/:report_id", saveLocationReport)
+
 }

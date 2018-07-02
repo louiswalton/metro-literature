@@ -9,15 +9,18 @@
     		<th>Language</th>
     		<th>Item</th>
     		<th>Current Stock</th>
-    		<th>Amount At Depot</th>
+    		<th>Target Inventory Level</th>
+        <th>Amount At Depot</th>
     		<th>Request</th>
     		<th>Item</th>
     		<th>Current Stock</th>
-    		<th>Amount At Depot</th>
+    		<th>Target Inventory Level</th>
+        <th>Amount At Depot</th>
     		<th>Request</th>
     		<th>Item</th>
     		<th>Current Stock</th>
-    		<th>Amount At Depot</th>
+    		<th>Target Inventory Level</th>
+        <th>Amount At Depot</th>
     		<th>Request</th>
     	</tr>
     {{range .payload }}
@@ -25,16 +28,19 @@
     		<td>{{.Language}}</td>
 	    	<td>Books</td>
 	    	<td>{{.Books}}</td>
+        <td>{{.BooksGoal}}
 	    	<td>{{.DepotBooks}}</td>
-	    	<td><input type="text" name="{{.Location}}-{{.Language}}-Books"></td>
+	    	<td><input type="text" name="{{.Location}}-{{.Language}}-Books" maxlength="5" size="4"></td>
 	    	<td>Magazines</td>
 	    	<td>{{.Magazines}}</td>
+        <td>{{.MagazinesGoal}}
 	    	<td>{{.DepotMagazines}}</td>
-	    	<td><input type="text" name="{{.Location}}-{{.Language}}-Magazines"></td>
+	    	<td><input type="text" name="{{.Location}}-{{.Language}}-Magazines" maxlength="5" size="4"></td>
 	    	<td>Bibles</td>
 	    	<td>{{.Bibles}}</td>
+        <td>{{.BiblesGoal}}</td>
 	    	<td>{{.DepotBibles}}</td>
-	    	<td><input type="text" name="{{.Location}}-{{.Language}}-Bibles"></td>
+	    	<td><input type="text" name="{{.Location}}-{{.Language}}-Bibles" maxlength="5" size="4"></td>
 	    </tr>
   	{{end}}
   	</table>

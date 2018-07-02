@@ -69,7 +69,8 @@ func getInventoryByOfficeID(officeID string) []language {
 
 	filt := expression.Name("Location").Equal(expression.Value(officeID))
 	proj := expression.NamesList(expression.Name("Language"), expression.Name("Bibles"),
-		expression.Name("Books"), expression.Name("Magazines"))
+		expression.Name("Books"), expression.Name("Magazines"), expression.Name("BiblesGoal"),
+		expression.Name("BooksGoal"), expression.Name("MagazinesGoal"))
 
 	expr, err := expression.NewBuilder().WithFilter(filt).WithProjection(proj).Build()
 
@@ -116,8 +117,11 @@ func getInventoryByOfficeID(officeID string) []language {
 		item.Stats = new(LocationStatsMap)
 		item.Stats.ItemCounts = make(map[string]interface{})
 		item.Stats.ItemCounts["Books"] = item.Books
+		item.Stats.ItemCounts["BooksGoal"] = item.BooksGoal
 		item.Stats.ItemCounts["Magazines"] = item.Magazines
+		item.Stats.ItemCounts["MagazinesGoal"] = item.MagazinesGoal
 		item.Stats.ItemCounts["Bibles"] = item.Bibles
+		item.Stats.ItemCounts["BiblesGoal"] = item.BiblesGoal
 		currentMap.Languages[item.Language+item.Location] = item
 	}
 

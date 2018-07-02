@@ -20,8 +20,11 @@ type language struct {
 	Location       string `json:"location"`
 	Language       string `json:"language"`
 	Books          int    `json:"books"`
+	BooksGoal      int    `json:"booksgoal"`
 	Magazines      int    `json:"magazines"`
+	MagazinesGoal  int    `json:"magazinesgoal"`
 	Bibles         int    `json:"bibles"`
+	BiblesGoal     int    `json:"biblesgoal"`
 	DepotBooks     int
 	DepotBibles    int
 	DepotMagazines int
