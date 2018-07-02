@@ -3,6 +3,7 @@
 <!--Embed the header.html template at this location-->
 {{ template "header.html" .}}
 	<a href="/office/{{.location}}">cancel</a>
+	<h1>{{.location}}</h1>
 	<form method="POST" action="editInventory">
     {{range .payload }}
 

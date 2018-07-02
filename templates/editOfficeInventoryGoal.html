@@ -3,7 +3,7 @@
 <!--Embed the header.html template at this location-->
 {{ template "header.html" .}}
 	<a href="/office/{{.location}}">cancel</a>
-	<h1>Inventory Targets</h1>
+	<h1>{{.location}} - Inventory Targets</h1>
 	<form method="POST" action="saveInventoryGoal">
     {{range .payload }}
 
