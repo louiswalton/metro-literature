@@ -1,0 +1,19 @@
+<!--editOfficeInventory.html-->
+
+<!--Embed the header.html template at this location-->
+{{ template "header.html" .}}
+	<a href="/office/{{.location}}">cancel</a>
+	<h1>Inventory Goals</h1>
+	<form method="POST" action="saveInventoryGoal">
+    {{range .payload }}
+
+      <h2>{{.Language}}</h2>
+	    Books: &nbsp<input type="text" name="{{.Location}}-{{.Language}}-BooksGoal" value={{.BooksGoal}}>&nbsp&nbsp Magazines: &nbsp<input type="text" name="{{.Location}}-{{.Language}}-MagazinesGoal" value={{.MagazinesGoal}}>&nbsp&nbsp Bibles: <input type="text" name="{{.Location}}-{{.Language}}-BiblesGoal" value={{.BiblesGoal}}>
+  	{{end}}
+  	<br><br>
+  	<input type="submit" value="Submit">
+  	</form>
+
+
+<!--Embed the footer.html template at this location-->
+{{ template "footer.html" .}}
