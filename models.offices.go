@@ -106,6 +106,19 @@ func getInventoryByOfficeID(officeID string) []language {
 		item := language{}
 		err = dynamodbattribute.UnmarshalMap(i, &item)
 
+		item.BooksSuggestion = item.BooksGoal - item.Books
+		if item.BooksSuggestion < 0 {
+			item.BooksSuggestion = 0
+		}
+		item.MagazinesSuggestion = item.MagazinesGoal - item.Magazines
+		if item.MagazinesSuggestion < 0 {
+			item.MagazinesSuggestion = 0
+		}
+		item.BiblesSuggestion = item.BiblesGoal - item.Bibles
+		if item.BiblesSuggestion < 0 {
+			item.BiblesSuggestion = 0
+		}
+
 		if err != nil {
 			fmt.Println("Got error unmarshalling:")
 			fmt.Println(err.Error())

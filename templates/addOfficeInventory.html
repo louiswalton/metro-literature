@@ -31,17 +31,17 @@
 	    	<td>{{.Books}}</td>
         <td>{{.BooksGoal}}
 	    	<td>{{.DepotBooks}}</td>
-	    	<td><input type="text" name="{{.Location}}-{{.Language}}-Books" maxlength="5" size="4"></td>
+	    	<td><input type="text" name="{{.Location}}-{{.Language}}-Books" maxlength="5" size="4" placeholder="{{.BooksSuggestion}}"></td>
 	    	<td>Brochures</td>
 	    	<td>{{.Magazines}}</td>
         <td>{{.MagazinesGoal}}
 	    	<td>{{.DepotMagazines}}</td>
-	    	<td><input type="text" name="{{.Location}}-{{.Language}}-Magazines" maxlength="5" size="4"></td>
+	    	<td><input type="text" name="{{.Location}}-{{.Language}}-Magazines" maxlength="5" size="4" placeholder={{.MagazinesSuggestion}}></td>
 	    	<td>Bibles</td>
 	    	<td>{{.Bibles}}</td>
         <td>{{.BiblesGoal}}</td>
 	    	<td>{{.DepotBibles}}</td>
-	    	<td><input type="text" name="{{.Location}}-{{.Language}}-Bibles" maxlength="5" size="4"></td>
+	    	<td><input type="text" name="{{.Location}}-{{.Language}}-Bibles" maxlength="5" size="4" placeholder={{.BiblesSuggestion}}></td>
 	    </tr>
   	{{end}}
   	</table>

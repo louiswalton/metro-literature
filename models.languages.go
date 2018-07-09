@@ -17,18 +17,21 @@ type LocationStatsMap struct {
 }
 
 type language struct {
-	Location       string `json:"location"`
-	Language       string `json:"language"`
-	Books          int    `json:"books"`
-	BooksGoal      int    `json:"booksgoal"`
-	Magazines      int    `json:"magazines"`
-	MagazinesGoal  int    `json:"magazinesgoal"`
-	Bibles         int    `json:"bibles"`
-	BiblesGoal     int    `json:"biblesgoal"`
-	DepotBooks     int
-	DepotBibles    int
-	DepotMagazines int
-	Stats          *LocationStatsMap
+	Location            string `json:"location"`
+	Language            string `json:"language"`
+	Books               int    `json:"books"`
+	BooksGoal           int    `json:"booksgoal"`
+	BooksSuggestion     int    `json:"bookssuggestion"`
+	Magazines           int    `json:"magazines"`
+	MagazinesGoal       int    `json:"magazinesgoal"`
+	MagazinesSuggestion int    `json:"magazinesuggestion"`
+	Bibles              int    `json:"bibles"`
+	BiblesGoal          int    `json:"biblesgoal"`
+	BiblesSuggestion    int    `json:"biblessuggestion"`
+	DepotBooks          int
+	DepotBibles         int
+	DepotMagazines      int
+	Stats               *LocationStatsMap
 }
 
 type Location struct {

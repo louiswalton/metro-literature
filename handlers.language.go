@@ -213,6 +213,7 @@ func saveInventoryGoalChanges(c *gin.Context) {
 func addInventoryByOfficeId(c *gin.Context) {
 	officeID := c.Param("office_id")
 	languages := getInventoryByOfficeID(officeID)
+	fmt.Println(languages)
 	offices := getAllOffices()
 	locations := getSiteByOfficeID(officeID)
 
@@ -369,7 +370,7 @@ func addInventoryToOffice(c *gin.Context) {
 	for key, value := range c.Request.PostForm {
 		valueMap[key] = value[0]
 	}
-
+	fmt.Println(valueMap)
 	SubtractInventoryFromDepot(valueMap)
 	AddInventoryChanges(valueMap)
 
